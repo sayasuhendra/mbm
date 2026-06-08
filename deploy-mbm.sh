@@ -2,7 +2,7 @@
 
 # Configuration
 APP_NAME="mbm"
-DOMAIN="mbm.dbaik.com"
+DOMAIN="mbm.caretube.id"
 REPO_URL="https://github.com/sayasuhendra/mbm"
 WEB_ROOT="/var/www/$APP_NAME"
 PHP_VERSION="8.3"
@@ -44,7 +44,10 @@ if [ ! -f ".env" ]; then
     touch database/database.sqlite
     
     echo "DB_CONNECTION=sqlite" >> .env
-    echo "APP_URL=http://$DOMAIN" >> .env
+    echo "APP_URL=https://$DOMAIN" >> .env
+else
+    # Always ensure APP_URL is correct for the current domain
+    sed -i "s|^APP_URL=.*|APP_URL=https://$DOMAIN|" .env
 fi
 
 # 3. Initial Permissions (Needed before artisan commands can write to logs/cache/db)
