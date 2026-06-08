@@ -15,7 +15,7 @@ class TrainingScheduleForm
     {
         return $schema
             ->components([
-                \Filament\Schemas\Components\Grid::make(3)->schema([
+                \Filament\Schemas\Components\Grid::make(['default' => 1, 'md' => 2])->schema([
                     \Filament\Schemas\Components\Grid::make(1)->schema([
                         \Filament\Schemas\Components\Section::make('Informasi Dasar')
                             ->schema([
@@ -29,7 +29,7 @@ class TrainingScheduleForm
                                     ->label('Deskripsi Latihan')
                                     ->columnSpanFull(),
                             ]),
-                    ])->columnSpan(['lg' => 2]),
+                    ])->columnSpan(1),
 
                     \Filament\Schemas\Components\Grid::make(1)->schema([
                         \Filament\Schemas\Components\Section::make('Waktu Pelaksanaan')
@@ -61,7 +61,7 @@ class TrainingScheduleForm
                                     ->default(true)
                                     ->required(),
                             ]),
-                    ])->columnSpan(['lg' => 1]),
+                    ])->columnSpan(1),
                 ]),
             ]);
     }

@@ -19,7 +19,7 @@ class ArcheryParticipantForm
     {
         return $schema
             ->components([
-                Grid::make(3)->schema([
+                Grid::make(['default' => 1, 'md' => 2])->schema([
                     Grid::make(1)->schema([
                         Section::make('Informasi Pribadi Peserta')
                             ->schema([
@@ -57,7 +57,7 @@ class ArcheryParticipantForm
                                     ->required()
                                     ->columnSpanFull(),
                             ]),
-                    ])->columnSpan(['lg' => 2]),
+                    ])->columnSpan(1),
 
                     Grid::make(1)->schema([
                         Section::make('Status & Administrasi')
@@ -105,14 +105,15 @@ class ArcheryParticipantForm
                                     ->required(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('equipment_option') === 'shared_contribution')
                                     ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('equipment_option') === 'shared_contribution'),
                             ]),
-                    ])->columnSpan(['lg' => 1]),
+
+                        Section::make('Tambahan')
+                            ->schema([
+                                Textarea::make('suggestion')
+                                    ->label('Saran / Masukan')
+                                    ->columnSpanFull(),
+                            ]),
+                    ])->columnSpan(1),
                 ]),
-                Section::make('Tambahan')
-                    ->schema([
-                        Textarea::make('suggestion')
-                            ->label('Saran / Masukan')
-                            ->columnSpanFull(),
-                    ])
             ]);
     }
 }
