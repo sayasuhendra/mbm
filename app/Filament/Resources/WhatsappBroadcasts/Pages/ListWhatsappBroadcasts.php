@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Filament\Resources\WhatsappBroadcasts\Pages;
+
+use App\Filament\Resources\WhatsappBroadcasts\WhatsappBroadcastResource;
+use Filament\Actions\CreateAction;
+use Filament\Resources\Pages\ListRecords;
+
+class ListWhatsappBroadcasts extends ListRecords
+{
+    protected static string $resource = WhatsappBroadcastResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            CreateAction::make(),
+        ];
+    }
+}
