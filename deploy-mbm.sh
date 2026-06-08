@@ -47,7 +47,15 @@ if [ ! -f ".env" ]; then
     echo "APP_URL=http://$DOMAIN" >> .env
 fi
 
-# 3. Install Dependencies
+# 3. Initial Permissions (Needed before artisan commands can write to logs/cache/db)
+echo "Setting initial permissions..."
+sudo chown -R $USER:www-data $WEB_ROOT
+sudo chmod -R 775 $WEB_ROOT/storage $WEB_ROOT/bootstrap/cache $WEB_ROOT/database
+if [ -f "$WEB_ROOT/database/database.sqlite" ]; then
+    sudo chmod 664 $WEB_ROOT/database/database.sqlite
+fi
+
+# 4. Install Dependencies
 echo "Installing Composer dependencies..."
 composer install --optimize-autoloader --no-dev
 
@@ -55,16 +63,16 @@ echo "Installing NPM dependencies and building assets..."
 npm install
 npm run build
 
-# 4. Generate App Key if not set
+# 5. Generate App Key if not set
 if ! grep -q "APP_KEY=base64" .env; then
     php artisan key:generate --force
 fi
 
-# 5. Run Migrations
+# 6. Run Migrations
 echo "Running database migrations..."
 php artisan migrate --force
 
-# 6. Optimize Laravel
+# 7. Optimize Laravel
 echo "Optimizing Laravel caches..."
 php artisan optimize:clear
 php artisan optimize
@@ -72,20 +80,13 @@ php artisan view:cache
 php artisan event:cache
 php artisan filament:cache-components
 
-# 7. Setup Permissions
-echo "Setting permissions..."
-sudo chown -R $USER:www-data $WEB_ROOT
-
-# Standard directory and file permissions
+# 8. Finalize Permissions (Ensures any newly created cache/log files are writable by the web server)
+echo "Finalizing permissions..."
 sudo find $WEB_ROOT -type f -exec chmod 644 {} \;
 sudo find $WEB_ROOT -type d -exec chmod 755 {} \;
-
-# Make storage, bootstrap/cache, and database writable for both user and www-data
 sudo chown -R $USER:www-data $WEB_ROOT/storage $WEB_ROOT/bootstrap/cache $WEB_ROOT/database
-sudo chmod -R 775 $WEB_ROOT/storage
-sudo chmod -R 775 $WEB_ROOT/bootstrap/cache
-sudo chmod -R 775 $WEB_ROOT/database
-sudo chmod 664 $WEB_ROOT/database/database.sqlite
+sudo find $WEB_ROOT/storage $WEB_ROOT/bootstrap/cache $WEB_ROOT/database -type f -exec chmod 664 {} \;
+sudo find $WEB_ROOT/storage $WEB_ROOT/bootstrap/cache $WEB_ROOT/database -type d -exec chmod 775 {} \;
 
 # 8. Setup Nginx
 NGINX_CONF="/etc/nginx/sites-available/$DOMAIN"
