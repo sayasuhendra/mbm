@@ -102,8 +102,8 @@ class ArcheryParticipantForm
                                     ->label('Nominal Urunan Alat')
                                     ->prefix('Rp')
                                     ->numeric()
-                                    ->required(fn (\Filament\Forms\Get $get) => $get('equipment_option') === 'shared_contribution')
-                                    ->visible(fn (\Filament\Forms\Get $get) => $get('equipment_option') === 'shared_contribution'),
+                                    ->required(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('equipment_option') === 'shared_contribution')
+                                    ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('equipment_option') === 'shared_contribution'),
                             ]),
                     ])->columnSpan(['lg' => 1]),
                 ]),
