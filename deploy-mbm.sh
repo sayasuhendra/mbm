@@ -74,12 +74,18 @@ php artisan filament:cache-components
 
 # 7. Setup Permissions
 echo "Setting permissions..."
-sudo chown -R www-data:www-data $WEB_ROOT
+sudo chown -R $USER:www-data $WEB_ROOT
+
+# Standard directory and file permissions
+sudo find $WEB_ROOT -type f -exec chmod 644 {} \;
+sudo find $WEB_ROOT -type d -exec chmod 755 {} \;
+
+# Make storage, bootstrap/cache, and database writable for both user and www-data
+sudo chown -R $USER:www-data $WEB_ROOT/storage $WEB_ROOT/bootstrap/cache $WEB_ROOT/database
 sudo chmod -R 775 $WEB_ROOT/storage
 sudo chmod -R 775 $WEB_ROOT/bootstrap/cache
+sudo chmod -R 775 $WEB_ROOT/database
 sudo chmod 664 $WEB_ROOT/database/database.sqlite
-sudo chown www-data:www-data $WEB_ROOT/database/database.sqlite
-sudo chown www-data:www-data $WEB_ROOT/database
 
 # 8. Setup Nginx
 NGINX_CONF="/etc/nginx/sites-available/$DOMAIN"
