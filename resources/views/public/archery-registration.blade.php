@@ -181,15 +181,6 @@
                             </div>
                         </div>
 
-                        <!-- Nominal Urunan Input (Visible only if Siap Urunan is selected) -->
-                        <div class="mt-4" x-show="equipmentOption === 'shared_contribution'" style="display: none;" x-transition>
-                            <label class="block space-y-1">
-                                <span class="text-sm font-semibold text-slate-700">Nominal Urunan yang Disanggupi (Rp) <span class="text-red-500">*</span></span>
-                                <input type="number" name="equipment_contribution_amount" value="{{ old('equipment_contribution_amount') }}" placeholder="Contoh: 150000" class="w-full rounded-xl border-slate-200 bg-white px-4 py-3 text-slate-900 transition-colors focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 placeholder:text-slate-400">
-                                @error('equipment_contribution_amount') <p class="text-sm text-red-500 mt-1">{{ $message }}</p> @enderror
-                            </label>
-                            <p class="mt-1.5 text-xs text-slate-500">Pembayaran urunan ini hanya dibayarkan sekali (one-time payment).</p>
-                        </div>
                     </div>
 
                     <div class="lg:col-span-2">

@@ -27,13 +27,12 @@ class StoreArcheryRegistrationRequest extends FormRequest
             'parent_whatsapp' => ['required', 'string', 'max:30'],
             'parent_address' => ['required', 'string', 'max:2000'],
             'child_name' => ['required', 'string', 'max:255'],
-            'child_age' => ['required', 'integer', 'min:5', 'max:18'],
+            'child_age' => ['required', 'integer'],
             'child_school_class' => ['required', 'string', 'max:255'],
             'training_permission' => ['required', 'boolean'],
             'weekly_donation_choice' => ['required', 'in:5000,10000,15000,other'],
             'weekly_donation_other' => ['nullable', 'required_if:weekly_donation_choice,other', 'integer', 'min:1000', 'max:1000000'],
             'equipment_option' => ['required', 'in:self_purchase_full,self_purchase_arrows,provided_by_committee,shared_contribution'],
-            'equipment_contribution_amount' => ['nullable', 'required_if:equipment_option,shared_contribution', 'integer', 'min:1000', 'max:5000000'],
             'suggestion' => ['nullable', 'string', 'max:5000'],
         ];
     }

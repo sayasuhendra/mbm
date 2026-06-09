@@ -98,12 +98,6 @@ class ArcheryParticipantForm
                                     ])
                                     ->required()
                                     ->live(),
-                                TextInput::make('equipment_contribution_amount')
-                                    ->label('Nominal Urunan Alat')
-                                    ->prefix('Rp')
-                                    ->numeric()
-                                    ->required(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('equipment_option') === 'shared_contribution')
-                                    ->visible(fn (\Filament\Schemas\Components\Utilities\Get $get) => $get('equipment_option') === 'shared_contribution'),
                             ]),
 
                         Section::make('Tambahan')
