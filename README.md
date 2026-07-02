@@ -38,7 +38,7 @@ Sistem Informasi Manajemen Pemuda Masjid Baitul Muttaqin (MBM Youth). Aplikasi i
 - **PHP**: ^8.4
 - **Admin Panel**: FilamentPHP v5 (TALL Stack)
 - **CSS Framework**: TailwindCSS v4
-- **Database**: PostgreSQL
+- **Database**: SQLite 3
 - **Media Management**: Spatie Media Library
 - **Authorization**: Spatie Laravel Permission & Filament Shield
 
@@ -50,7 +50,7 @@ Sistem Informasi Manajemen Pemuda Masjid Baitul Muttaqin (MBM Youth). Aplikasi i
 - PHP 8.4+
 - Composer
 - Node.js & NPM
-- PostgreSQL
+- PHP SQLite extension (`pdo_sqlite`)
 - Redis (Opsional, direkomendasikan untuk Queue & Cache)
 
 ### Langkah Instalasi
@@ -73,14 +73,12 @@ Sistem Informasi Manajemen Pemuda Masjid Baitul Muttaqin (MBM Youth). Aplikasi i
    cp .env.example .env
    php artisan key:generate
    ```
-   Atur koneksi database pada file `.env` (pastikan DB `mbmyouth` telah dibuat di PostgreSQL):
+   Gunakan SQLite dan buat file database:
    ```env
-   DB_CONNECTION=pgsql
-   DB_HOST=127.0.0.1
-   DB_PORT=5432
-   DB_DATABASE=mbmyouth
-   DB_USERNAME=postgres
-   DB_PASSWORD=secret
+   DB_CONNECTION=sqlite
+   ```
+   ```bash
+   touch database/database.sqlite
    ```
 
 4. **Jalankan Migrasi Database & Storage Link**

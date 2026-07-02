@@ -45,18 +45,6 @@ fi
 export MBM_ADMIN_PASSWORD
 export MBM_ADMIN_EMAIL="${MBM_ADMIN_EMAIL:-admin@$DOMAIN}"
 
-DB_HOST="${DB_HOST:-127.0.0.1}"
-DB_PORT="${DB_PORT:-5432}"
-DB_DATABASE="${DB_DATABASE:-mbmyouth}"
-DB_USERNAME="${DB_USERNAME:-mbmyouth}"
-
-if [[ -z "${DB_PASSWORD:-}" ]]; then
-    read -r -s -p "Password PostgreSQL untuk user $DB_USERNAME: " DB_PASSWORD
-    echo
-fi
-
-[[ -n "$DB_PASSWORD" ]] || fail "DB_PASSWORD tidak boleh kosong."
-
 log "Menyiapkan source code di $APP_DIR"
 if [[ -d "$APP_DIR/.git" ]]; then
     [[ -z "$(runuser -u "$DEPLOY_USER" -- git -C "$APP_DIR" status --porcelain)" ]] || fail "Repository di $APP_DIR memiliki perubahan lokal."
@@ -97,12 +85,11 @@ set_env APP_ENV production
 set_env APP_DEBUG false
 set_env APP_URL "https://$DOMAIN"
 set_env QUEUE_CONNECTION database
-set_env DB_CONNECTION pgsql
-set_env DB_HOST "$DB_HOST"
-set_env DB_PORT "$DB_PORT"
-set_env DB_DATABASE "$DB_DATABASE"
-set_env DB_USERNAME "$DB_USERNAME"
-set_env DB_PASSWORD "$DB_PASSWORD"
+set_env DB_CONNECTION sqlite
+set_env DB_DATABASE "$APP_DIR/database/database.sqlite"
+
+mkdir -p database
+touch database/database.sqlite
 
 log "Menginstal dependency production"
 composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
@@ -124,6 +111,8 @@ log "Mengatur permission Laravel"
 chown -R "$DEPLOY_USER:$WEB_USER" "$APP_DIR"
 find storage bootstrap/cache -type d -exec chmod 2775 {} \;
 find storage bootstrap/cache -type f -exec chmod 664 {} \;
+chmod 2775 database
+chmod 664 database/database.sqlite
 
 log "Membuat queue worker systemd"
 cat > /etc/systemd/system/mbmyouth-queue.service <<EOF

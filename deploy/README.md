@@ -21,17 +21,17 @@ sudo systemctl reload caddy
 php artisan storage:link
 ```
 
-Untuk first deployment lengkap, pastikan database PostgreSQL dan user-nya sudah dibuat, kemudian jalankan:
+Untuk first deployment lengkap, pastikan ekstensi PHP `pdo_sqlite` tersedia, kemudian jalankan:
 
 ```bash
 chmod +x deploy.sh
 sudo ./deploy.sh
 ```
 
-Nilai default-nya adalah domain `mbm.dbaik.com`, path `/var/www/mbmyouth`, branch `main`, dan PostgreSQL database/user `mbmyouth`. Semua dapat dioverride melalui environment variable, misalnya:
+Nilai default-nya adalah domain `mbm.dbaik.com`, path `/var/www/mbmyouth`, branch `main`, dan database SQLite di `database/database.sqlite`. Nilai deployment dapat dioverride melalui environment variable, misalnya:
 
 ```bash
-sudo env APP_DIR=/srv/mbm BRANCH=production DB_DATABASE=mbm DB_USERNAME=mbm ./deploy.sh
+sudo env APP_DIR=/srv/mbm BRANCH=production ./deploy.sh
 ```
 
 5. Update aplikasi berikutnya:

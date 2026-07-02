@@ -2,12 +2,19 @@
 
 namespace App\Filament\Resources\TrainingSchedules\Tables;
 
+use App\Filament\Exports\TrainingScheduleExporter;
+use App\Models\TrainingSchedule;
+use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportAction;
+use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
 
 class TrainingSchedulesTable
 {
@@ -43,36 +50,40 @@ class TrainingSchedulesTable
                 //
             ])
             ->recordActions([
-                \Filament\Actions\Action::make('setActive')
+                Action::make('setActive')
                     ->label('Set Aktif')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
-                    ->action(fn (\App\Models\TrainingSchedule $record) => $record->update(['is_active' => true]))
-                    ->visible(fn (\App\Models\TrainingSchedule $record) => ! $record->is_active),
-                \Filament\Actions\Action::make('setInactive')
+                    ->action(fn (TrainingSchedule $record) => $record->update(['is_active' => true]))
+                    ->visible(fn (TrainingSchedule $record) => ! $record->is_active),
+                Action::make('setInactive')
                     ->label('Set Tidak Aktif')
                     ->icon('heroicon-o-x-circle')
                     ->color('warning')
-                    ->action(fn (\App\Models\TrainingSchedule $record) => $record->update(['is_active' => false]))
-                    ->visible(fn (\App\Models\TrainingSchedule $record) => $record->is_active),
+                    ->action(fn (TrainingSchedule $record) => $record->update(['is_active' => false]))
+                    ->visible(fn (TrainingSchedule $record) => $record->is_active),
                 EditAction::make(),
             ])
             ->toolbarActions([
-                //
+                ExportAction::make()
+                    ->label('Export Excel')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->exporter(TrainingScheduleExporter::class)
+                    ->formats([ExportFormat::Xlsx]),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    \Filament\Actions\BulkAction::make('bulkSetActive')
+                    BulkAction::make('bulkSetActive')
                         ->label('Set Aktif')
                         ->icon('heroicon-o-check-circle')
                         ->color('success')
-                        ->action(fn (\Illuminate\Database\Eloquent\Collection $records) => $records->each->update(['is_active' => true]))
+                        ->action(fn (Collection $records) => $records->each->update(['is_active' => true]))
                         ->deselectRecordsAfterCompletion(),
-                    \Filament\Actions\BulkAction::make('bulkSetInactive')
+                    BulkAction::make('bulkSetInactive')
                         ->label('Set Tidak Aktif')
                         ->icon('heroicon-o-x-circle')
                         ->color('warning')
-                        ->action(fn (\Illuminate\Database\Eloquent\Collection $records) => $records->each->update(['is_active' => false]))
+                        ->action(fn (Collection $records) => $records->each->update(['is_active' => false]))
                         ->deselectRecordsAfterCompletion(),
                     DeleteBulkAction::make(),
                 ]),

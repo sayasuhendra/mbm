@@ -2,16 +2,20 @@
 
 namespace App\Filament\Resources\ArcheryParticipants\Tables;
 
+use App\Filament\Exports\ArcheryParticipantExporter;
 use App\Models\ArcheryParticipant;
 use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportAction;
+use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Database\Eloquent\Collection;
 
 class ArcheryParticipantsTable
 {
@@ -83,13 +87,13 @@ class ArcheryParticipantsTable
                 ]),
             ])
             ->recordActions([
-                \Filament\Actions\Action::make('setActive')
+                Action::make('setActive')
                     ->label('Set Aktif')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->action(fn (ArcheryParticipant $record) => $record->update(['status' => ArcheryParticipant::STATUS_ACTIVE]))
                     ->visible(fn (ArcheryParticipant $record) => $record->status !== ArcheryParticipant::STATUS_ACTIVE),
-                \Filament\Actions\Action::make('setInactive')
+                Action::make('setInactive')
                     ->label('Set Tidak Aktif')
                     ->icon('heroicon-o-x-circle')
                     ->color('warning')
@@ -98,40 +102,25 @@ class ArcheryParticipantsTable
                 EditAction::make(),
             ])
             ->toolbarActions([
-                \Filament\Actions\Action::make('exportCsv')
-                    ->label('Export CSV')
-                    ->action(function (): StreamedResponse {
-                        return response()->streamDownload(function () {
-                            $handle = fopen('php://output', 'w');
-                            fputcsv($handle, ['No Anggota', 'Orang Tua', 'WhatsApp', 'Anak', 'Usia', 'Kelas/Sekolah', 'Status']);
-                            ArcheryParticipant::query()->orderBy('member_number')->each(function ($participant) use ($handle) {
-                                fputcsv($handle, [
-                                    $participant->member_number,
-                                    $participant->parent_name,
-                                    $participant->parent_whatsapp,
-                                    $participant->child_name,
-                                    $participant->child_age,
-                                    $participant->child_school_class,
-                                    $participant->status,
-                                ]);
-                            });
-                            fclose($handle);
-                        }, 'peserta-panahan.csv');
-                    }),
+                ExportAction::make()
+                    ->label('Export Excel')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->exporter(ArcheryParticipantExporter::class)
+                    ->formats([ExportFormat::Xlsx]),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    \Filament\Actions\BulkAction::make('bulkSetActive')
+                    BulkAction::make('bulkSetActive')
                         ->label('Set Aktif')
                         ->icon('heroicon-o-check-circle')
                         ->color('success')
-                        ->action(fn (\Illuminate\Database\Eloquent\Collection $records) => $records->each->update(['status' => ArcheryParticipant::STATUS_ACTIVE]))
+                        ->action(fn (Collection $records) => $records->each->update(['status' => ArcheryParticipant::STATUS_ACTIVE]))
                         ->deselectRecordsAfterCompletion(),
-                    \Filament\Actions\BulkAction::make('bulkSetInactive')
+                    BulkAction::make('bulkSetInactive')
                         ->label('Set Tidak Aktif')
                         ->icon('heroicon-o-x-circle')
                         ->color('warning')
-                        ->action(fn (\Illuminate\Database\Eloquent\Collection $records) => $records->each->update(['status' => ArcheryParticipant::STATUS_INACTIVE]))
+                        ->action(fn (Collection $records) => $records->each->update(['status' => ArcheryParticipant::STATUS_INACTIVE]))
                         ->deselectRecordsAfterCompletion(),
                     DeleteBulkAction::make(),
                 ]),

@@ -2,9 +2,12 @@
 
 namespace App\Filament\Resources\Incomes\Tables;
 
+use App\Filament\Exports\IncomeExporter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportAction;
+use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -47,6 +50,11 @@ class IncomesTable
                 EditAction::make(),
             ])
             ->toolbarActions([
+                ExportAction::make()
+                    ->label('Export Excel')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->exporter(IncomeExporter::class)
+                    ->formats([ExportFormat::Xlsx]),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

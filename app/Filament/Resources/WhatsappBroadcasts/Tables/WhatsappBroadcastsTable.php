@@ -2,11 +2,14 @@
 
 namespace App\Filament\Resources\WhatsappBroadcasts\Tables;
 
+use App\Filament\Exports\WhatsappBroadcastExporter;
 use App\Jobs\SendWhatsappBroadcastJob;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportAction;
+use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -76,6 +79,11 @@ class WhatsappBroadcastsTable
                 EditAction::make(),
             ])
             ->toolbarActions([
+                ExportAction::make()
+                    ->label('Export Excel')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->exporter(WhatsappBroadcastExporter::class)
+                    ->formats([ExportFormat::Xlsx]),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
