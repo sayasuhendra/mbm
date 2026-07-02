@@ -103,8 +103,10 @@ class ArcheryParticipantsTable
             ])
             ->toolbarActions([
                 ExportAction::make()
-                    ->label('Export Excel')
+                    ->label('Export ke Excel')
                     ->icon('heroicon-o-arrow-down-tray')
+                    ->color('success')
+                    ->button()
                     ->exporter(ArcheryParticipantExporter::class)
                     ->formats([ExportFormat::Xlsx]),
             ])
