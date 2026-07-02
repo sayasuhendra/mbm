@@ -2,15 +2,12 @@
 
 namespace App\Filament\Resources\ArcheryParticipants\Tables;
 
-use App\Filament\Exports\ArcheryParticipantExporter;
 use App\Models\ArcheryParticipant;
 use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\ExportAction;
-use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -100,15 +97,6 @@ class ArcheryParticipantsTable
                     ->action(fn (ArcheryParticipant $record) => $record->update(['status' => ArcheryParticipant::STATUS_INACTIVE]))
                     ->visible(fn (ArcheryParticipant $record) => $record->status !== ArcheryParticipant::STATUS_INACTIVE),
                 EditAction::make(),
-            ])
-            ->toolbarActions([
-                ExportAction::make()
-                    ->label('Export ke Excel')
-                    ->icon('heroicon-o-arrow-down-tray')
-                    ->color('success')
-                    ->button()
-                    ->exporter(ArcheryParticipantExporter::class)
-                    ->formats([ExportFormat::Xlsx]),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
