@@ -21,6 +21,7 @@ class ListArcheryParticipants extends ListRecords
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('success')
                 ->exporter(ArcheryParticipantExporter::class)
+                ->columnMapping(false)
                 ->formats([ExportFormat::Xlsx]),
             CreateAction::make(),
         ];
