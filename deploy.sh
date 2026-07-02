@@ -33,6 +33,19 @@ for command in git php composer npm caddy systemctl runuser; do
     require_command "$command"
 done
 
+if ! php -r 'exit(extension_loaded("pdo_sqlite") ? 0 : 1);'; then
+    if command -v apt-get >/dev/null 2>&1; then
+        log "Menginstal ekstensi PHP SQLite"
+        apt-get update
+        DEBIAN_FRONTEND=noninteractive apt-get install -y "php${PHP_VERSION}-sqlite3"
+        systemctl restart "$PHP_FPM_SERVICE"
+    else
+        fail "Ekstensi PHP pdo_sqlite belum tersedia. Instal ekstensi sqlite3 untuk PHP $PHP_VERSION lalu jalankan ulang deploy.sh."
+    fi
+fi
+
+php -r 'exit(extension_loaded("pdo_sqlite") ? 0 : 1);' || fail "Ekstensi PHP pdo_sqlite tetap tidak tersedia setelah instalasi."
+
 systemctl is-active --quiet "$PHP_FPM_SERVICE" || fail "Service $PHP_FPM_SERVICE tidak aktif."
 [[ -S "$PHP_FPM_SOCKET" ]] || fail "Socket PHP-FPM tidak ditemukan: $PHP_FPM_SOCKET"
 

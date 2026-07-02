@@ -65,6 +65,10 @@
                         @endforeach
                     </select>
                     <button class="rounded-xl bg-slate-900 px-5 py-2 text-sm font-bold text-white hover:bg-emerald-700 transition-colors shadow-sm">Filter</button>
+                    <a href="{{ route('financial-report.export-excel', array_filter(['year' => $year, 'month' => $month])) }}" class="inline-flex items-center gap-2 rounded-xl bg-emerald-700 px-5 py-2 text-sm font-bold text-white hover:bg-emerald-800 transition-colors shadow-sm">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"></path></svg>
+                        Export Excel
+                    </a>
                 </form>
             </div>
             <div class="relative w-full overflow-hidden rounded-xl bg-slate-50/50 p-2">

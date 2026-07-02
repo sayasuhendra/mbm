@@ -21,7 +21,7 @@ sudo systemctl reload caddy
 php artisan storage:link
 ```
 
-Untuk first deployment lengkap, pastikan ekstensi PHP `pdo_sqlite` tersedia, kemudian jalankan:
+Untuk first deployment lengkap, jalankan perintah berikut. Pada Debian/Ubuntu, script otomatis memasang paket `php8.4-sqlite3` jika ekstensi `pdo_sqlite` belum tersedia.
 
 ```bash
 chmod +x deploy.sh

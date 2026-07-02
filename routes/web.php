@@ -9,3 +9,4 @@ Route::get('/', LandingPageController::class)->name('home');
 Route::get('/pendaftaran-panahan', [ArcheryRegistrationController::class, 'create'])->name('archery.registration.create');
 Route::post('/pendaftaran-panahan', [ArcheryRegistrationController::class, 'store'])->name('archery.registration.store');
 Route::get('/laporan-keuangan', PublicFinancialReportController::class)->name('financial-report.public');
+Route::get('/laporan-keuangan/export-excel', [PublicFinancialReportController::class, 'export'])->name('financial-report.export-excel');
