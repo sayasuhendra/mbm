@@ -1,0 +1,23 @@
+mbm.dbaik.com {
+    root * /var/www/mbmyouth/public
+
+    encode zstd gzip
+
+    php_fastcgi unix//run/php/php8.4-fpm.sock
+    file_server
+
+    @blocked path /.env /composer.* /package*.json /artisan /vendor/*
+    respond @blocked 404
+
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options SAMEORIGIN
+        Referrer-Policy strict-origin-when-cross-origin
+        -Server
+    }
+
+    log {
+        output file /var/log/caddy/mbm.dbaik.com.access.log
+        format json
+    }
+}
