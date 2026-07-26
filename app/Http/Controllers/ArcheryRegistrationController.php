@@ -19,7 +19,7 @@ class ArcheryRegistrationController extends Controller
         $registrations->register($request->registrationData());
 
         return redirect()
-            ->route('archery.registration.create')
+            ->route($request->routeIs('archery.competition.*') ? 'archery.competition.create' : 'archery.registration.create')
             ->with('success', 'Pendaftaran berhasil dikirim. Data akan segera diverifikasi oleh panitia.');
     }
 }

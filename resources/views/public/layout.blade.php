@@ -37,8 +37,8 @@
                 <a href="{{ route('home') }}#tentang" class="hover:text-slate-900 transition-colors">Tentang</a>
                 <a href="{{ route('home') }}#jadwal" class="hover:text-slate-900 transition-colors">Jadwal</a>
                 <a href="{{ route('financial-report.public') }}" class="hover:text-slate-900 transition-colors">Laporan Keuangan</a>
-                <a href="{{ route('archery.registration.create') }}" class="rounded-full bg-slate-900 px-5 py-2.5 font-semibold text-white transition-all hover:bg-slate-800 hover:shadow-md">
-                    Daftar Panahan
+                <a href="{{ route('archery.competition.create') }}" class="rounded-full bg-slate-900 px-5 py-2.5 font-semibold text-white transition-all hover:bg-slate-800 hover:shadow-md">
+                    Daftar Lomba
                 </a>
             </div>
             

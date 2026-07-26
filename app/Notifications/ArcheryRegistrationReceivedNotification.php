@@ -20,6 +20,13 @@ class ArcheryRegistrationReceivedNotification extends Notification implements Sh
      */
     public function toArray(object $notifiable): array
     {
+        if ($notifiable->event_name) {
+            return [
+                'title' => 'Pendaftaran lomba diterima',
+                'message' => 'Data pendaftaran '.$notifiable->event_name.' telah diterima dan menunggu verifikasi.',
+            ];
+        }
+
         return [
             'title' => 'Pendaftaran panahan diterima',
             'message' => 'Data pendaftaran ananda telah diterima dan menunggu verifikasi.',

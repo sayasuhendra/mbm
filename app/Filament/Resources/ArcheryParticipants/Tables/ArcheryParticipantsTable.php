@@ -29,13 +29,30 @@ class ArcheryParticipantsTable
                 TextColumn::make('parent_whatsapp')
                     ->label('WhatsApp')
                     ->searchable(),
+                TextColumn::make('rt')
+                    ->label('RT')
+                    ->searchable(),
                 TextColumn::make('child_name')
-                    ->label('Anak')
+                    ->label('Peserta')
                     ->searchable(),
                 TextColumn::make('child_age')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('child_school_class')
+                    ->searchable(),
+                TextColumn::make('event_name')
+                    ->label('Kegiatan')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('competition_category')
+                    ->label('Kategori Lomba')
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        'kelas_3_6_pria' => 'Kelas 3-6 Pria',
+                        'kelas_3_6_wanita' => 'Kelas 3-6 Wanita',
+                        'remaja' => 'Remaja',
+                        'dewasa_pria' => 'Dewasa Pria',
+                        default => $state ?? '-',
+                    })
                     ->searchable(),
                 IconColumn::make('training_permission')
                     ->boolean(),

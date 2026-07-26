@@ -22,6 +22,16 @@ class StoreArcheryRegistrationRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->isCompetitionRegistration()) {
+            return [
+                'name' => ['required', 'string', 'max:255'],
+                'whatsapp' => ['required', 'string', 'max:30'],
+                'rt' => ['required', 'string', 'max:20'],
+                'competition_category' => ['required', 'in:kelas_3_6_pria,kelas_3_6_wanita,remaja,dewasa_pria'],
+                'suggestion' => ['nullable', 'string', 'max:5000'],
+            ];
+        }
+
         return [
             'parent_name' => ['required', 'string', 'max:255'],
             'parent_whatsapp' => ['required', 'string', 'max:30'],
@@ -43,6 +53,27 @@ class StoreArcheryRegistrationRequest extends FormRequest
     public function registrationData(): array
     {
         $validated = $this->validated();
+
+        if ($this->isCompetitionRegistration()) {
+            $category = $this->categoryLabel($validated['competition_category']);
+
+            return [
+                'parent_name' => $validated['name'],
+                'parent_whatsapp' => $validated['whatsapp'],
+                'parent_address' => 'RT '.$validated['rt'],
+                'rt' => $validated['rt'],
+                'child_name' => $validated['name'],
+                'child_age' => 0,
+                'child_school_class' => $category,
+                'competition_category' => $validated['competition_category'],
+                'event_name' => 'Lomba Panahan 17 Agustus 2026',
+                'training_permission' => true,
+                'weekly_donation_amount' => 0,
+                'equipment_option' => 'provided_by_committee',
+                'suggestion' => $validated['suggestion'] ?? null,
+            ];
+        }
+
         $validated['weekly_donation_amount'] = $validated['weekly_donation_choice'] === 'other'
             ? (int) $validated['weekly_donation_other']
             : (int) $validated['weekly_donation_choice'];
@@ -50,5 +81,21 @@ class StoreArcheryRegistrationRequest extends FormRequest
         unset($validated['weekly_donation_choice'], $validated['weekly_donation_other']);
 
         return $validated;
+    }
+
+    private function isCompetitionRegistration(): bool
+    {
+        return $this->hasAny(['name', 'whatsapp', 'rt', 'competition_category'])
+            || $this->routeIs('archery.competition.*');
+    }
+
+    private function categoryLabel(string $category): string
+    {
+        return match ($category) {
+            'kelas_3_6_pria' => 'Kelas 3-6 Pria',
+            'kelas_3_6_wanita' => 'Kelas 3-6 Wanita',
+            'remaja' => 'Remaja',
+            'dewasa_pria' => 'Dewasa Pria',
+        };
     }
 }

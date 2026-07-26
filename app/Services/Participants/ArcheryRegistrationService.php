@@ -26,10 +26,11 @@ class ArcheryRegistrationService
 
             $participant->notify(new ArcheryRegistrationReceivedNotification);
 
-            $this->whatsapp->send(
-                $participant->parent_whatsapp,
-                "Assalamu'alaikum.\n\nTerima kasih telah mendaftarkan ananda ke Klub Panahan Remaja Masjid Baitul Muttaqin.\n\nData pendaftaran telah kami terima dan akan segera diverifikasi."
-            );
+            $message = $participant->event_name
+                ? "Assalamu'alaikum.\n\nTerima kasih telah mendaftar {$participant->event_name}.\n\nKategori: {$participant->child_school_class}\nJadwal lomba: 1 & 2 Agustus 2026, mulai pukul 07.30.\n\nData pendaftaran telah kami terima dan akan segera diverifikasi panitia."
+                : "Assalamu'alaikum.\n\nTerima kasih telah mendaftarkan ananda ke Klub Panahan Remaja Masjid Baitul Muttaqin.\n\nData pendaftaran telah kami terima dan akan segera diverifikasi.";
+
+            $this->whatsapp->send($participant->parent_whatsapp, $message);
 
             return $participant;
         });

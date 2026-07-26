@@ -35,4 +35,29 @@ class ArcheryRegistrationTest extends TestCase
             'status' => ArcheryParticipant::STATUS_PENDING,
         ]);
     }
+
+    public function test_public_competition_registration_creates_pending_participant(): void
+    {
+        $response = $this->post(route('archery.competition.store'), [
+            'name' => 'Rizky Pratama',
+            'whatsapp' => '628122222222',
+            'rt' => '03',
+            'competition_category' => 'remaja',
+            'suggestion' => 'Datang bersama orang tua.',
+        ]);
+
+        $response->assertRedirect(route('archery.competition.create'));
+
+        $this->assertDatabaseHas('archery_participants', [
+            'parent_name' => 'Rizky Pratama',
+            'parent_whatsapp' => '628122222222',
+            'rt' => '03',
+            'child_name' => 'Rizky Pratama',
+            'child_school_class' => 'Remaja',
+            'competition_category' => 'remaja',
+            'event_name' => 'Lomba Panahan 17 Agustus 2026',
+            'weekly_donation_amount' => 0,
+            'status' => ArcheryParticipant::STATUS_PENDING,
+        ]);
+    }
 }

@@ -13,7 +13,7 @@
             <div class="z-10">
                 <div class="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 mb-6 backdrop-blur-sm">
                     <span class="flex h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span>
-                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-300">Pendaftaran Gelombang 1 Dibuka</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-300">Pendaftaran Lomba 17 Agustus Dibuka</span>
                 </div>
                 <h1 class="text-5xl font-black leading-[1.1] tracking-tight sm:text-7xl lg:text-[5rem]">
                     Fokus, Disiplin, <br>
@@ -23,8 +23,8 @@
                     Klub Panahan Remaja Masjid Baitul Muttaqin. Wadah pembinaan karakter generasi muda Islam yang kuat jasmani, tangguh mental, dan mencintai ibadah.
                 </p>
                 <div class="mt-10 flex flex-wrap items-center gap-4">
-                    <a href="{{ route('archery.registration.create') }}" class="group relative inline-flex items-center justify-center gap-2 rounded-full bg-amber-400 px-8 py-4 text-base font-bold text-slate-950 shadow-[0_0_40px_-10px_rgba(251,191,36,0.6)] transition-all duration-300 hover:scale-105 hover:bg-amber-300 hover:shadow-[0_0_60px_-15px_rgba(251,191,36,0.8)]">
-                        <span>Daftar Sekarang</span>
+                    <a href="{{ route('archery.competition.create') }}" class="group relative inline-flex items-center justify-center gap-2 rounded-full bg-amber-400 px-8 py-4 text-base font-bold text-slate-950 shadow-[0_0_40px_-10px_rgba(251,191,36,0.6)] transition-all duration-300 hover:scale-105 hover:bg-amber-300 hover:shadow-[0_0_60px_-15px_rgba(251,191,36,0.8)]">
+                        <span>Daftar Lomba</span>
                         <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </a>
                     <a href="#jadwal" class="inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-800/50 px-8 py-4 text-base font-bold text-white backdrop-blur-sm transition-all hover:bg-slate-700 hover:text-white">
@@ -122,8 +122,8 @@
                     <p class="text-sm font-bold uppercase tracking-widest text-emerald-600">Jadwal Latihan</p>
                     <h2 class="mt-4 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">Agenda Rutin Kami</h2>
                 </div>
-                <a href="{{ route('archery.registration.create') }}" class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 font-bold text-white hover:bg-slate-800 transition-colors shadow-md">
-                    <span>Gabung Sekarang</span>
+                <a href="{{ route('archery.competition.create') }}" class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 font-bold text-white hover:bg-slate-800 transition-colors shadow-md">
+                    <span>Daftar Lomba 17 Agustus</span>
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                 </a>
             </div>

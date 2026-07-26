@@ -56,12 +56,25 @@ class ArcheryParticipantForm
                                     ->label('Alamat Lengkap')
                                     ->required()
                                     ->columnSpanFull(),
+                                TextInput::make('rt')
+                                    ->label('RT')
+                                    ->maxLength(20),
                             ]),
                     ])->columnSpan(1),
 
                     Grid::make(1)->schema([
                         Section::make('Status & Administrasi')
                             ->schema([
+                                TextInput::make('event_name')
+                                    ->label('Nama Kegiatan'),
+                                Select::make('competition_category')
+                                    ->label('Kategori Lomba')
+                                    ->options([
+                                        'kelas_3_6_pria' => 'Kelas 3-6 Pria',
+                                        'kelas_3_6_wanita' => 'Kelas 3-6 Wanita',
+                                        'remaja' => 'Remaja',
+                                        'dewasa_pria' => 'Dewasa Pria',
+                                    ]),
                                 Select::make('status')
                                     ->label('Status Peserta')
                                     ->options([
